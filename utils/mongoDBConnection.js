@@ -5,7 +5,7 @@ const mongoURI = 'mongodb+srv://melbinbennyoffl:melbin@cluster0.xsit3.mongodb.ne
   
   const state = {}
   
-  const dbName = process.env.DATABASE_NAME || 'ventureHub'
+  const dbName = process.env.DATABASE_NAME || 'sungglebugs'
   const client = new MongoClient(mongoURI)
   module.exports.connect = async function (done) {
    

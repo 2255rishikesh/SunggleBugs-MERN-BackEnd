@@ -12,14 +12,7 @@ const itemSchema = new Schema({
     type: String,
     required: true
   },
-  imageUrl2: {
-    type: String,
-    required: true
-  },
-  imageUrl3: {
-    type: String,
-    required: true
-  },
+  
   price: {
     type: String,
     required: true
