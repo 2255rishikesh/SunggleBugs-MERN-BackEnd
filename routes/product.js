@@ -6,8 +6,9 @@ const router = express.Router();
 router.get('/cart/:userId', async (req, res) => {
     try {
         const { userId } = req.params; 
+        const userObjectId = new ObjectId(userId);
         const cart = await db.get().collection('cart').aggregate([
-            { '$match': { 'userId': new ObjectId(userId) } },  
+            { '$match': { 'userId': userObjectId} },  
             { '$unwind': { 'path': '$products' } }, 
             { '$lookup': { 
                 'from': 'categories', 
@@ -19,7 +20,7 @@ router.get('/cart/:userId', async (req, res) => {
         ]).toArray();
 
         if (!cart || cart.length === 0) {
-            return res.status(404).json({ message: "Cart not found" });
+            return res.status(200).json({ message: "Cart not found" });
         }
 
        
