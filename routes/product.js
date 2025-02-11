@@ -5,42 +5,41 @@ const router = express.Router();
 
 router.get('/cart/:userId', async (req, res) => {
     try {
-        const { userId } = req.params;  // Extract userId from URL
+        const { userId } = req.params; 
         const cart = await db.get().collection('cart').aggregate([
-            { '$match': { 'userId': new ObjectId(userId) } },  // Match by userId
-            { '$unwind': { 'path': '$products' } },  // Unwind the products array
+            { '$match': { 'userId': new ObjectId(userId) } },  
+            { '$unwind': { 'path': '$products' } }, 
             { '$lookup': { 
                 'from': 'categories', 
                 'localField': 'products.productId', 
                 'foreignField': 'items._id', 
                 'as': 'category' 
             }},
-            { '$unwind': { 'path': '$category' } }  // Unwind category array to match the product
+            { '$unwind': { 'path': '$category' } } 
         ]).toArray();
 
         if (!cart || cart.length === 0) {
             return res.status(404).json({ message: "Cart not found" });
         }
 
-        // Filter products that exist in the category's items array
+       
         const cartItems = cart.flatMap(x => 
             x.category.items
                 .filter(item => item._id.equals(x.products.productId))
                 .map(item => ({
-                    ...item,  // Product details
-                    qty: x.products.qty  // Add the quantity from the cart
+                    ...item, 
+                    qty: x.products.qty 
                 }))
         );
 
 
-        // Return filtered cart items
+    
         res.status(200).json({ products: cartItems });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
 
 
 

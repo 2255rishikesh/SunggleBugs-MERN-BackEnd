@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb+srv://melbinbennyoffl:melbin@cluster0.xsit3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = 'mongodb+srv://ebinjaimon59:ebin@cluster0.q1okp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
   
   const state = {}
   

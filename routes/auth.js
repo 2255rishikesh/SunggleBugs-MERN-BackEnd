@@ -4,15 +4,15 @@ const router = express.Router();
 
 router.post('/register',async (req, res) => {
     try {
-        const { email, name, confromPassword, password } = req?.body;
-      if (!email || !name || !password || !confromPassword ) {
+        const { email, name, confirmPassword , password } = req?.body?.formData;
+      if (!email || !name || !password || !confirmPassword  ) {
         return res.status(400).json({ message: 'All fields are required' });
       }
       const userExist = await  db.get().collection('users').findOne({email});
       if(userExist){
         return res.status(400).json({ message: 'user alredy exist please login' });
       }
-      await db.get().collection('users').insertOne({ email, name, confromPassword, password,role:"user" })
+      await db.get().collection('users').insertOne({ email, name, password,role:"user" })
 
       res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -24,7 +24,7 @@ router.post('/register',async (req, res) => {
 
 router.post('/login',async (req, res) => {
  try {
-  const{email,password}=req?.body;
+  const{email,password}=req?.body?.formData;
   if (!email || !password) {
     return res.status(400).json({ message: 'All fields are required' });
   }
