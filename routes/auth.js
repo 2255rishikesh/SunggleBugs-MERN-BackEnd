@@ -13,8 +13,9 @@ router.post('/register',async (req, res) => {
         return res.status(400).json({ message: 'user alredy exist please login' });
       }
       await db.get().collection('users').insertOne({ email, name, password,role:"user" })
+      const user = await db.get().collection('users').findOne({email});
 
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json({ message: 'User registered successfully', user });
     } catch (error) {
       console.error('Error registering user:', error.message);
       res.status(500).json({ message: 'Internal server error' });
